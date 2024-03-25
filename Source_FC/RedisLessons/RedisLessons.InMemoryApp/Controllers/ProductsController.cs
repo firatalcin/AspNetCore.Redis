@@ -14,28 +14,37 @@ namespace RedisLessons.InMemoryApp.Controllers
 
         public IActionResult Index()
         {
-            //1.yol
-            if (String.IsNullOrEmpty(_memoryCache.Get<string>("zaman")))
-            {
-                _memoryCache.Set<string>("zaman", DateTime.Now.ToString());
-            }
+            ////1.yol
+            //if (String.IsNullOrEmpty(_memoryCache.Get<string>("zaman")))
+            //{
+            //    _memoryCache.Set<string>("zaman", DateTime.Now.ToString());
+            //}
+
+
             //2.yol
-            if(_memoryCache.TryGetValue("zaman", out string zamanCache))
-            {
-                _memoryCache.Set<string>("zaman", DateTime.Now.ToString());
-            }
-            
+
+            MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions();
+            cacheOptions.AbsoluteExpiration = DateTime.Now.AddMinutes(1);
+            cacheOptions.SlidingExpiration = TimeSpan.FromSeconds(10);
+
+            _memoryCache.Set<string>("zaman", DateTime.Now.ToString(), cacheOptions);
+
             return View();
         }
 
-        public IActionResult Show() 
+        public IActionResult Show()
         {
-            _memoryCache.GetOrCreate<string>("zaman", entry =>
-            {
-                return DateTime.Now.ToString();
-            });
+            //_memoryCache.GetOrCreate<string>("zaman", entry =>
+            //{
+            //    return DateTime.Now.ToString();
+            //});
 
-            ViewBag.Zaman = _memoryCache.Get<string>("zaman");
+            _memoryCache.TryGetValue("zaman", out string zamancache);
+
+            //ViewBag.Zaman = _memoryCache.Get<string>("zaman");
+
+            ViewBag.Zaman = zamancache;
+
             return View();
         }
     }
