@@ -14,12 +14,27 @@ namespace RedisLessons.InMemoryApp.Controllers
 
         public IActionResult Index()
         {
-            _memoryCache.Set<string>("zaman", DateTime.Now.ToString());
+            //1.yol
+            if (String.IsNullOrEmpty(_memoryCache.Get<string>("zaman")))
+            {
+                _memoryCache.Set<string>("zaman", DateTime.Now.ToString());
+            }
+            //2.yol
+            if(_memoryCache.TryGetValue("zaman", out string zamanCache))
+            {
+                _memoryCache.Set<string>("zaman", DateTime.Now.ToString());
+            }
+            
             return View();
         }
 
         public IActionResult Show() 
         {
+            _memoryCache.GetOrCreate<string>("zaman", entry =>
+            {
+                return DateTime.Now.ToString();
+            });
+
             ViewBag.Zaman = _memoryCache.Get<string>("zaman");
             return View();
         }
