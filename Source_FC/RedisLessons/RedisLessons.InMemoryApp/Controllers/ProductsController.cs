@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using RedisLessons.InMemoryApp.Models;
 
 namespace RedisLessons.InMemoryApp.Controllers
 {
@@ -39,6 +40,10 @@ namespace RedisLessons.InMemoryApp.Controllers
 
             _memoryCache.Set<string>("zaman", DateTime.Now.ToString(), cacheOptions);
 
+            Product product = new Product() { Id = 1, Name = "Kalem", Price = 100};
+
+            _memoryCache.Set<Product>("product:1", product);
+
             return View();
         }
 
@@ -56,6 +61,9 @@ namespace RedisLessons.InMemoryApp.Controllers
 
             ViewBag.Zaman = zamancache;
             ViewBag.Callback = callback;
+
+            ViewBag.Product = _memoryCache.Get<Product>("product:1");
+
             return View();
         }
     }
