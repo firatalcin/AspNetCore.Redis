@@ -30,6 +30,12 @@ namespace RedisLessons.InMemoryApp.Controllers
             cacheOptions.SlidingExpiration = TimeSpan.FromSeconds(10);
             // Cache'in önemi
             cacheOptions.Priority = CacheItemPriority.High;
+            // Cache silindiği zaman hangi sebeple silindiğini yazar
+            cacheOptions.RegisterPostEvictionCallback((key, value, reason, state) => {
+
+                _memoryCache.Set("callback", $"{key}->{value} => sebep:{reason}");
+            
+            });
 
             _memoryCache.Set<string>("zaman", DateTime.Now.ToString(), cacheOptions);
 
@@ -44,11 +50,12 @@ namespace RedisLessons.InMemoryApp.Controllers
             //});
 
             _memoryCache.TryGetValue("zaman", out string zamancache);
+            _memoryCache.TryGetValue("callback", out string callback);
 
             //ViewBag.Zaman = _memoryCache.Get<string>("zaman");
 
             ViewBag.Zaman = zamancache;
-
+            ViewBag.Callback = callback;
             return View();
         }
     }
