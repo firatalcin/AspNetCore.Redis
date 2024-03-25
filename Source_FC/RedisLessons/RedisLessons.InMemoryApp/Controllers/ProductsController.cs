@@ -24,8 +24,12 @@ namespace RedisLessons.InMemoryApp.Controllers
             //2.yol
 
             MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions();
+            // Bir dakika sonra silinir
             cacheOptions.AbsoluteExpiration = DateTime.Now.AddMinutes(1);
+            // Her istekte 10 saniye yenilenir
             cacheOptions.SlidingExpiration = TimeSpan.FromSeconds(10);
+            // Cache'in önemi
+            cacheOptions.Priority = CacheItemPriority.High;
 
             _memoryCache.Set<string>("zaman", DateTime.Now.ToString(), cacheOptions);
 
