@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
+using RedisLessons.IDistributedCacheRedisApp.Models;
+using System.Text.Json.Serialization;
 
 namespace RedisLessons.IDistributedCacheRedisApp.Controllers
 {
@@ -29,6 +32,35 @@ namespace RedisLessons.IDistributedCacheRedisApp.Controllers
         }
 
         public IActionResult Delete() 
+        {
+            _distributedCache.Remove("name");
+            return View();
+        }
+
+        public async Task<IActionResult> IndexComplex() 
+        {
+            DistributedCacheEntryOptions cacheEntryOptions = new DistributedCacheEntryOptions();
+            cacheEntryOptions.AbsoluteExpiration = DateTime.Now.AddMinutes(1);
+
+            Product product = new Product() { Id = 1, Name = "Kalem", Price = 100};
+
+            string jsonProduct = JsonConvert.SerializeObject(product);
+
+            await _distributedCache.SetStringAsync("product:1", jsonProduct, cacheEntryOptions);
+
+            return View();
+        }
+
+        public IActionResult ShowComplex()
+        {
+            string json = _distributedCache.GetString("product:1");
+
+            Product product = JsonConvert.DeserializeObject<Product>(json);
+       
+            return View(product);
+        }
+
+        public IActionResult DeleteComplex()
         {
             _distributedCache.Remove("name");
             return View();
