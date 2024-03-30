@@ -65,5 +65,23 @@ namespace RedisLessons.IDistributedCacheRedisApp.Controllers
             _distributedCache.Remove("name");
             return View();
         }
+
+        public IActionResult ImageCache()
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/bmw.jpg");
+
+            byte[] imageByte = System.IO.File.ReadAllBytes(path);
+
+            _distributedCache.Set("resim", imageByte);
+
+            return View();
+        }
+
+        public IActionResult ImageShow()
+        {
+            byte[] imageByte = _distributedCache.Get("resim");
+
+            return File(imageByte,"image/jpg");
+        }
     }
 }
