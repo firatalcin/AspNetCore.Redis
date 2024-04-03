@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using RedisExampleApp.API.Contexts;
+
 namespace RedisExampleApp.API
 {
 	public class Program
@@ -13,6 +16,11 @@ namespace RedisExampleApp.API
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+
+			builder.Services.AddDbContext<AppDbContext>(opt =>
+			{
+				opt.UseInMemoryDatabase("myDatabase");
+			});
 
 			var app = builder.Build();
 
