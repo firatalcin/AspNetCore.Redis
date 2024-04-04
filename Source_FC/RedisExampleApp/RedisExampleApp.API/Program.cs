@@ -14,7 +14,16 @@ namespace RedisExampleApp.API
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
-			builder.Services.AddScoped<IProductRepository, ProductRepository>();
+			builder.Services.AddScoped<IProductRepository>(sp =>
+			{
+				var appDbContext = sp.GetRequiredService<AppDbContext>();
+				var productRepository = new ProductRepository(appDbContext);
+
+				var redisService = sp.GetRequiredService<RedisService>();
+
+				return new ProductRepositoryWithCache(productRepository, redisService);
+
+			});
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,7 +44,7 @@ namespace RedisExampleApp.API
 			{
 				var redisService = sp.GetRequiredService<RedisService>();
 				return redisService.GetDb(0);
-			})
+			});
 
 			var app = builder.Build();
 
