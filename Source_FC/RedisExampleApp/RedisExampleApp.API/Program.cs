@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using RedisExampleApp.API.Contexts;
 using RedisExampleApp.API.Repositories;
+using RedisExampleApp.Cache;
+using StackExchange.Redis;
 
 namespace RedisExampleApp.API
 {
@@ -23,6 +25,17 @@ namespace RedisExampleApp.API
 			{
 				opt.UseInMemoryDatabase("myDatabase");
 			});
+
+			builder.Services.AddSingleton<RedisService>(sp =>
+			{
+				return new RedisService(builder.Configuration["CacheOptions:Url"]);
+			});
+
+			builder.Services.AddSingleton<IDatabase>(sp =>
+			{
+				var redisService = sp.GetRequiredService<RedisService>();
+				return redisService.GetDb(0);
+			})
 
 			var app = builder.Build();
 

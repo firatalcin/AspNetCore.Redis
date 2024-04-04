@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RedisExampleApp.API.Models;
 using RedisExampleApp.API.Repositories;
+using RedisExampleApp.Cache;
 
 namespace RedisExampleApp.API.Controllers
 {
@@ -19,7 +19,7 @@ namespace RedisExampleApp.API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAll()
 		{
-			return Ok(_productRepository.GetAsync());
+			return Ok(await _productRepository.GetAsync());
 		}
 
 		[HttpGet("{id}")]
@@ -31,7 +31,7 @@ namespace RedisExampleApp.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateProduct(Product product)
 		{
-			return Created(string.Empty, _productRepository.CreateAsync(product));
+			return Created(string.Empty,await _productRepository.CreateAsync(product));
 		}
 	}
 }
