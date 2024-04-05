@@ -1,49 +1,140 @@
 # AspNetCore.Redis
 
 <h2>Caching Nedir ?</h2>
-
 <p>
-Geliştirdiğimiz yazılımları kullanan kişi sayısı arttıkça yavaşlamanın olmamasını isteriz. Çok fazla kullanılan modüllerin kullanıcılara hızlı cevap vermesini isteriz. Tüm bu ve bu doğrultudaki isteklerimize caching yöntimi pozitif yönde katkı sağlamaktadır. Caching sık kullanılan dataları kaydetme tekniğine verilen isimdir. Kaydetme işlemi uygulamayı host eden sunucunun ram belleğinde(In Memory Caching) ve harici bir caching sunusunda(Distributed Caching) gerçekleştirilebilir.
+  Yazılım süreçlerinde verilere daha hızlı erişebilmek için bu verilerin
+  bellekte saklanması olayına caching denmektedir.
+</p>
+<p>
+  Bilgisayar sistemlerinde kullanılan bellek türlerinin hız ve kapasite farkları
+  mevcuttur. Örnek olarak, sabit disk'e nazaran RAM anlık olarak işlem
+  yapılabilecek verilerin tutulduğu ortam olduğu için haliyle verilere erişimin
+  söz konusu olduğu durumlarda daha hızlı bir davranış sergileyecektir.
+</p>
+<p>
+  Bu da bizlere yazılımlarımızda belirli verisel işlemler sürecinde hız
+  kazandıracak ve performans açısından bir optimizasyon sağlayacaktır.
 </p>
 
+<h2>Caching'in Yazılıma Katkıları Nelerdir ?</h2>
+<ul>
+  <li><b>Veri Erişimini Hızlandırır</b></li>
+  <p>Caching, verilerin hızlı erişimini sağlar</p>
+  <li><b>Performans Artışı</b></li>
+  <p>
+    Caching, verilerin hızlı bir şekilde erişilebilir olmasını sağladığı için
+    performans arttırır. Özellikle veritabanı sorguları gibi yavaş ve maliyetli
+    işlemlerde, verilerin önceden sakladığı cache'den alınması yerine göre büyük
+    performans farkları yaratabilir.
+  </p>
+  <li><b>Sunucu Yükünü Azaltır</b></li>
+  <p>
+    Caching, verileri önceden cache'de sakladığı için ihtiyaç dahilinde aynı
+    verilerin tekrar tekrar elde edilme maliyetini sunucudan soyutlar ve böylece
+    sunucunun iş yükünü azaltır.
+  </p>
+  <li><b>Çevrimiçi Uygulamalar için Kritik Arz Eder</b></li>
+  <p>
+    Çevrimiçi uygulamalarda, kullanıcıların verilere hızlı bir şekilde
+    erişebilmeleri ve işlem yapabilmeleri önemlidir. Caching özellikle bu
+    ihtiyacı karşılayan bir yaklaşımdır.
+  </p>
+</ul>
+
+<h2>Hangi Veriler Cache'lenir ?</h2>
 <p>
-Cacheleme, kullanıcılara pozitif yönde bir uygulama deneyimi sağlar. Çok sık erişilmeyen dataları cachelemek gereksiz bir kaynak kullanımına sebeb olacaktır. Çok sık değişen dataları ise cachelememek gerekir. Çünkü istek yapan kullanıcıya yanlış data göndermiş oluruz.
-
-<strong>Cacheleyeceğimiz datanın iki özelliği taşıyor olması gerekir. Birincisi çok güncellenmemeli, İkincisi çok sık erişiliyor olmalı.</strong>
+  Cache'lenecek veriler, sıklıkla ve hızlı bir şekilde erişilecek veriler
+  olmalıdır. Örneğin; sık ve sürekli kullanılan veritabanı sorguları neticesinde
+  ki veriler, konfigürasyon verileri, menü bilgileri, yetkiler, vs. gibi yazılım
+  tarafından sürekli ihtiyaç duyulacak verileri cache'lemekte fayda vardır.
 </p>
-
-<h3>Neden Cache Kullanmalıyız ?</h3>
+<p>
+  Hatta resim ve video dosyaları gibi static yapılanmalarda cache'lenebilir.
+</p>
+<p>
+  Ancak unutulmamalıdır ki, yazılım sürecinde kullanılan her veri
+  cache'lenmemelidir. Örnek olarak, sürekli güncellenen veya kişisel olan
+  veriler cache'lenmemelidir. Ayrıca güvenlik açısından risk teşkil eden veriler
+  de mümkün mertebe cache'lenmemeksizin işlenmelidir.
+</p>
+<p><b>Cache'lenmemesi Gereken Veriler</b></p>
 <ul>
-    <li>Uygulama kullanıcısına hızlı cevap verebilmek için</li>
-    <li>Daha iyi kullanıcı deneyimi sağlamak için</li>
-    <li>Veri tabanı tarafındaki gereksiz bandwidth trafiğini azaltmak için</li>
-    <li>1 kişi girdiği zamanda 100 kişi girdiği zamanda aynı kullanıcı deneyimi sağlayabilmek için</li>
+  <li>Güncellenen veriler</li>
+  <li>Kişisel veriler</li>
+  <li>Güvenlik açısından risk teşkil eden veriler</li>
+  <li>Özel veriler</li>
+  <li>Geçici veriler</li>
 </ul>
 
-<h3>Cache Stratejileri</h3>
-<p><b>On-Demand:</b> Verilerin talep edildiği an cachelenmesine verilen isimdir.</p>
-<p><b>Prepopulation:</b> İstek gelmeden uygulama ayağa kalkar kalkmaz verilerin cachelendiği seneryoya verilen isimdir.</p>
-
-<h3>Cache Ömrü</h3>
-<p><b>Absolute Time:</b> Verilen süre dolduğunda veri cache’den silinir.</p>
-<p><b>Sliding Time:</b> Verilen süre içerisinde cache verisine erişilirse, Cache in süresi siliding time süresi kadar daha uzatılmış olur.(Sadece bu özellik kullanılırsa her zaman eski dataya ulaşılabilir. Bu sorunu engellemek için sliding time la birlikte absolute time da belirtmek gerekir.)</p>
-
-<h2>In-Memory Caching</h2>
-<p>In-Memory Cache uygulama ile ilgili verilerin uygulamanın çalıştığı uygulama sunucusunun ram belleğinde tutulması işlemidir. Tutabileceğimiz cache boyutu uygulama sunucusunun ram miktarıyla doğru olarantılıdır.</p>
-<p>Uygulamamızın tekbir instance varsa problemsiz bir şekilde kullanılır.</p>
-<p>Uygulamamızın birden fazla instance varsa ve bu instance'lara bir “load balancer” yönlendirme yapıyorsa uygulamaya istek yapan kullanıcı farklı zamanlarda farklı instance'lara yönlendirilebilir. Bu durumda kişi farklı zamanlarda farklı cachelere ulaşacağından her isteğinde farklı bir veri görür. Bu tutarsızlığı çözmek için “load balancer” üzerinden “sticky session” özelliği ile uygulamaya istek yapan kullanıcı devamlı aynı uygulama instance'ına gönderilebilir. Sticky Session cookie veya Ip’ye göre yönlendirme yapabilmektedir.</p>
-<p>Eğer uygulamamız birden fazla sunucu üzerinde çalışıyorsa In-Memory Cache yerine Distributed Cache kullanmak daha doğru olacaktır.</p>
-
-<h2>Distributed Caching</h2>
-<p>Distributed Cache yönteminde, Cache dataları uygulamanın ayağa kalktığı host işletim sisteminin ram belleğinde tutulmaz. Bu yöntemde cache dataları ayrı bir cache service'inde tutulur.</p>
-<h3>Avantajları Nelerdir ?</h3>
+<h2>Caching Zararları Nelerdir ?</h2>
 <ul>
-    <li>Veri tutarsızlığının önüne geçilmiş olur</li>
-    <li>Uygulamanın ayağa kalktığı host bilgisayar resetlendiğinde cache verileri silinmez.</li>
-</ul>
-<h3>Dezavantajları Nelerdir ?</h3>
-<ul>
-    <li>Farklı bir service'den cache dataları istendiği için In-Memory Cache yöntemine göre daha yavaştır.</li>
-    <li>In-Memory Cache yöntemine göre kullanımı daha zordur.</li>
-</ul>
+  <li><b>Bellek Yükü</b></li>
+  <p>
+    Verileri bellekte saklamak demek, bellekteki yükün artması demektir. Caching
+    işlemi zaten kapasitesi sınırlı olan belleğin yükünü arttırarak performansı
+    da bir nebze olumsuz etkileyebilir.
+  </p>
+  <li><b>Güncellik Sorunu</b></li>
+  <p>
+    Cache'lenmiş veriler, veritabanındaki fizik fiziksel ortamlarında
+    değişikliğe uğrayabilirler. Eğer ki bu değişiklik cache'de ki verilere de
+    yansıtılmaz ise yazılım tarafından tutarsız verilerin kullanılması durumu
+    söz konusu olabilir.
+  </p>
+  <li><b>Güvenlik Sorunları</b></li>
+  <p>Kritik arz eden verilerin cache'lenmesi tehlike doğurabilir.</p>
+  <li><b>Yasa Dışı Kullanım</b></li>
+  <p>
+    Yasa dışı kullanım açısından önemli verilerin (finans, sağlık, kimlik
+    bilgileri vs) cache'lenmesi hukuki problemlere sebebiyet verebilir.
+  </p>
 
+  <h2>Bir Cache Mekanizmasının Temel Bileşenleri Nelerdir ?</h2>
+
+  <ul>
+    <li><b>Cache Belleği</b></li>
+    <p>
+      Verilerin saklandığı bellektir. Verileri hızlı bir şekilde erişilebilir
+      hale getirmek için kullanılır.
+    </p>
+    <li><b>Cache Bellek Yönetimi</b></li>
+    <p>
+      Cache belleğinde saklanan verileri yönetmek için kullanılır. Örnek olarak;
+      verilerin saklanma süreleri, silinme sıklıkları veya güncellik durumları
+      gibi yapılandırmalar sağlanabilir.
+    </p>
+    <li><b>Cache Algoritması</b></li>
+    <p>
+      Verilerin cache belleğine nasıl eklenip silineceğini belirleyen
+      algoritmadır.
+    </p>
+  </ul>
+
+  <h2>Caching Yaklaşımları</h2>
+  <ul>
+    <li><b>In-Memory Caching</b></li>
+    <p>
+      Verileri uygulamanın çalıştığı bilgisayarın RAM'inde cache'leyen
+      yaklaşımdır.
+    </p>
+    <li><b>Distributed Caching</b></li>
+    <p>
+      Verileri birden fazla fiziksel makinada cache'leyen ve böylece verileri
+      farklı noktalarda tutarak tek bir noktada saklamaktan daha güvenli bir
+      davranış sergileyen yaklaşımdır.
+    </p>
+    <p>
+      Bu yaklaşımla veriler bölünerek farklı makinalara dağıtılmaktadır. Haliyle
+      büyük veri setleri için daha uygun ve ideal bir yaklaşımdır.
+    </p>
+  </ul>
+
+  <h2>Redis Nedir ?</h2>
+  <p>
+    Redis(Remote Dictionary Server); open source olan ve bellekte veri
+    yapılarını yüksek performanslı bir şekilde cache'lemek için kullanılan bir
+    veritabanıdır. Caching işlemlerinin yanında message broker olarak da
+    kullanılabilmektedir. Yapısal olarak key-value veri modelinde çalışmaktadır
+    ve NoSQL veritabanıdır.
+  </p>
+</ul>
