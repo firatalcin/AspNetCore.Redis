@@ -138,3 +138,174 @@
     ve NoSQL veritabanıdır.
   </p>
 </ul>
+<h2>Redis Veri Türleri</h2>
+
+<h3>Redis String</h3>
+<p>Redis'in en temel, en basit veri türüdür. Metinsel değerlerle birlikte her türlü veriyi saklamak için kullanılır. Hatta binary olarak resim, dosya vs. verileri de saklayabilmektedir.</p>
+
+<table>
+  <tr>
+    <th>İşlem</th>
+    <th>Kod</th>
+    <th>Örnek</th>
+  </tr>
+  <tr>
+    <td>Ekleme</td>
+    <td>SET</td>
+    <td>SET isim firat</td>
+  </tr>
+  <tr>
+    <td>Okuma</td>
+    <td>GET</td>
+    <td>GET isim</td>
+  </tr>
+  <tr>
+    <td>karakter Okuma</td>
+    <td>GETRANGE</td>
+    <td>GETRANGE isim 0 2</td>
+  </tr>
+  <tr>
+    <td>Arttırılabilir</td>
+    <td>INCR</td>
+    <td>INCR sayi</td>
+  </tr>
+  <tr>
+    <td>Arttırılabilir</td>
+    <td>INCRBY</td>
+    <td>INCRBY sayi 10</td>
+  </tr>
+  <tr>
+    <td>Azaltılabilir</td>
+    <td>DECR</td>
+    <td>DECR sayi</td>
+  </tr>
+  <tr>
+    <td>Azaltılabilir</td>
+    <td>DECRBY</td>
+    <td>DECRBY sayi 10</td>
+  </tr>
+  <tr>
+    <td>Üzerine Ekleme</td>
+    <td>APPEND</td>
+    <td>APPEND name alcin</td>
+  </tr>
+</table>
+
+<h3>Redis List</h3>
+<p>Değerleri koleksiyonel olarak tutan bir türdür.</p>
+
+<table>
+  <tr>
+    <th>İşlem</th>
+    <th>Kod</th>
+    <th>Örnek</th>
+  </tr>
+  <tr>
+    <td>Baştan Veri Ekleme</td>
+    <td>LPUSH</td>
+    <td>LPUSH ogrenciler emre</td>
+  </tr>
+  <tr>
+    <td>Verileri Listeleme</td>
+    <td>LRANGE</td>
+    <td>LRANGE ogrenciler 0 2 / LRANGE ogrenciler 0 -1</td>
+  </tr>
+  <tr>
+    <td>Sona Veri Ekleme</td>
+    <td>RPUSH</td>
+    <td>RPUSH ogrenciler baris</td>
+  </tr>
+  <tr>
+    <td>İlk Datayı Çıkarma</td>
+    <td>LPOP</td>
+    <td>LPOP ogrenciler</td>
+  </tr>
+  <tr>
+    <td>Son Datayı Çıkarma</td>
+    <td>RPOP</td>
+    <td>RPOP ogrenciler</td>
+  </tr>
+  <tr>
+    <td>İndexe göre datayı getirme</td>
+    <td>LINDEX</td>
+    <td>LINDEX ogrenciler 2</td>
+  </tr>
+</table>
+
+<h3>Redis Set</h3>
+<p>Verileri rastgele bir düzende unique bir biçimde tutan veri türüdür.</p>
+
+<table>
+  <tr>
+    <th>İşlem</th>
+    <th>Kod</th>
+    <th>Örnek</th>
+  </tr>
+  <tr>
+    <td>Ekleme</td>
+    <td>SADD</td>
+    <td>SADD color blue</td>
+  </tr>
+  <tr>
+    <td>Silme</td>
+    <td>SREM</td>
+    <td>SREM color white</td>
+  </tr>
+</table>
+
+<h3>Redis Sorted Set</h3>
+<p>Set'in düzenli bir sırayla tutan versiyonudur.</p>
+
+<table>
+  <tr>
+    <th>İşlem</th>
+    <th>Kod</th>
+    <th>Örnek</th>
+  </tr>
+  <tr>
+    <td>Ekleme</td>
+    <td>ZADD</td>
+    <td>ZADD araclar 1 silgi</td>
+  </tr>
+  <tr>
+    <td>Getir</td>
+    <td>ZRANGE</td>
+    <td>ZRANGE araclar 0 2 / ZRANGE araclar 0 2 WITHSCORES</td>
+  </tr>
+  <tr>
+    <td>Silme</td>
+    <td>ZREM</td>
+    <td>ZREM araclar 2</td>
+  </tr>
+</table>
+
+<h3>Redis Hash</h3>
+<p>Key-Value formatında veri tutan türdür.</p>
+
+<table>
+  <tr>
+    <th>İşlem</th>
+    <th>Kod</th>
+    <th>Örnek</th>
+  </tr>
+  <tr>
+    <td>Ekleme</td>
+    <td>HMSET</td>
+    <td>HMSET sozluk pen kalem</td>
+  </tr>
+  <tr>
+    <td>Okuma</td>
+    <td>HMGET</td>
+    <td>HMGET sozluk pen</td>
+  </tr>
+  <tr>
+    <td>Silme</td>
+    <td>HDEL</td>
+    <td>HDEL sozluk pen</td>
+  </tr>
+  <tr>
+    <td>Tümünü Getir</td>
+    <td>HGETALL</td>
+    <td>HGETALL sozluk</td>
+  </tr>
+</table>
