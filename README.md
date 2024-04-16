@@ -309,3 +309,31 @@
     <td>HGETALL sozluk</td>
   </tr>
 </table>
+
+<h2>In-Memory Cache İşlem Sırası</h2>
+
+<ol>
+  <li><b>AddMemoryCache</b> servisi uygulamaya ekleyiniz.</li>
+  <li><b>IMemoryCache</b> referansı inject ediniz.</li>
+  <li><b>Set</b> metodu ile veriyi cache'leyebilir, Get metodu ile cache'lenmiş veriyi elde edebilirsiniz.</li>
+  <li><b>Remove</b> fonksiyonuyla cache'lenmiş veriyi silebilirsiniz.</li>
+  <li><b>TryGetValue</b> metodu ile kontrollü bir şekilde cache'den veri okuyabilirsiniz.</li>
+</ol>
+
+<h2>In-Memory Cache Absolute & Sliding Expiration</h2>
+
+<h3>Absolute Time Nedir ?</h3>
+<p> Cache'de ki datanın ne kadar tutulacağına dair net ömrünün belirtilmesidir. Belirtilen ömür sona erdiğinde cache direkt olarak temizlenir.</p>
+<h3>Sliding Time Nedir ?</h3>
+<p>Cache'lenmiş datanın memory'de belirtilen süre periyodu zarfında tutulmasını belirtir. Belirtilen süre periyodu içerisinde cache'e yapılan erişim neticesinde de datanın ömrü bir o kadar uzatılacaktır. Aksi taktirde belirtilen süre zarfında bir erişim söz konusu olmazsa cache temizlenecektir.</p>
+
+<h2>Distributed Cache İşlem Sırası</h2>
+
+<ol>
+  <li><b>StackExchangeRedis</b> kütüphanesini uygulamaya yükleyiniz.</li>
+  <li><b>AddStackExchangeRedisCache</b> servisini uygulamaya ekleyiniz.</li>
+  <li><b>IDistributedCache</b> referansını inject ediniz.</li>
+  <li><b>SetString</b> metodu ile metinsel, <b>Set</b> metodu ile ise, binary olarak verilerinizi redis'e cache'leyebilirsiniz. Aynı şekilde <b>GetString</b> ve <b>Get</b> fonksiyonlarıyla cache'lenmiş verileri elde edebilirsiniz.</li>
+  <li><b>Remove</b> fonksiyonu ile cache'lenmiş verileri silebilirsiniz.</li>
+</ol>
+
