@@ -337,3 +337,25 @@
   <li><b>Remove</b> fonksiyonu ile cache'lenmiş verileri silebilirsiniz.</li>
 </ol>
 
+<h2>Redis API ile Message Broker</h2>
+
+<p>Redis her ne kadar caching süreçlerinde kullanıyor olsa da özünde bir pub/sub işlemi yapabilen message broker özelliği barındırmaktadır.</p>
+
+<ol>
+<li>.Net Core'da Redis API üzerinden pub/sub işlemini gerçekleştirebilmek için StackExchange.Redis kütüphanesini uygulamanıza yükleyiniz.</li>
+<li>
+  <p>Ardından <b>ConnectionMultiplexer</b> sınıfı üzerinden Redis sunucusuna bir bağlantı oluşturunuz.</p>
+  <p><b>ConnectionMultiplexer redis = await ConnectionMultiplexer.ConnectAsync("localhost:6379");</b></p>
+</li>
+<li>
+  <p>Devamında ise bu bağlantı üzerinden bir subscriber oluşturunuz.</p>
+  <p><b>ISubscriber subscriber = redis.GetSubscriber();</b></p>
+</li>
+<li>
+  <p>Bu aşamadan sonra davranışlarınız publisher ve consumer olmak üzere ikiye ayrılacaktır.</p>
+  <p>Publish metodunu çağırarak istediğiniz kanala mesajınızı yayınlayabilirsiniz</p>
+  <p><b>await subscriber.PublishAsync("example-channel", message);</b></p>
+  <p>Subscribe metodunu çağırarak istediğiniz kanaldan mesajları okuyabilirsiniz</p>
+  <p><b>await subscriber.SubscriberAsync("example-channel", (channel, message) => {Console.WriteLine(message)});</b></p>
+</li>
+</ol>
