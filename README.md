@@ -359,3 +359,15 @@
   <p><b>await subscriber.SubscriberAsync("example-channel", (channel, message) => {Console.WriteLine(message)});</b></p>
 </li>
 </ol>
+
+<h2>Redis Replication Davranışı Nedir ?</h2>
+<p>Replication bir Redis sunucusundaki tüm verisel yapıın farklı bir sunucu tarafından birebir modellenmesi/çoğaltılması/replike edilmesidir.</p>
+
+<h2>Replication Davranışındaki Temel Terminolojiler Nelerdir ? </h2>
+<p>Replication davranışında modellenecek/replikası alınacak olan sunucuya <b>master</b> adını veriyoruz.</p>
+<p>Master'ın replikası olan sunucuya ise <b>slave</b> adını veriyoruz.</p>
+<p>Replication özelliğinde master ve slave arasında kurulan bir bağlantı üzerinden master'daki tüm değişiklikler anlık olarak slave sunuculara aktarılıyor olacaktır. Bu bağlantı koptuğu takdirde otomatik olarak yeniden sağlanarak, verisel güvence sergilenmeye çalışılacaktır.</p>
+<p>Bu davranış sayesinde master sunucunda olabilecek arıza beya kesinti durumlarında sorumluluğu slave sunucuların otomatik devralmasıyla kesintisiz bir hizmez sağlayabiliyor olacağız.</p>
+<p>Eğer ki, master ile slave arasında verisel bir eşitleme durumu tam olarak gerçekleşmemişse Redis bunun olabilmesi için talepte bulunacak ve master'dan güncel verilerin slave'e aktarılması için kaynak tüketimine devam edilecektir.</p>
+<p>Ayrıca şunu da bilmekte fayda vardır ki, bir master'ın birden fazla replikasyonu da mevcut olabilir. Böylece, birden fazla slave sunucunun olmasıyla yüksek kullanılabilirlik, yedekleme ve kurtarma, veri ölçeklendirme ve coğrafi olarak dağıtılmış sistemler gibi senaryolarda yararlı çalışmalar gerçekleştirilebilir.</p>
+<p>Slave sunucular sadece readonly'dir.</p>
