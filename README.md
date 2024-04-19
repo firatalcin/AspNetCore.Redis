@@ -371,3 +371,30 @@
 <p>Eğer ki, master ile slave arasında verisel bir eşitleme durumu tam olarak gerçekleşmemişse Redis bunun olabilmesi için talepte bulunacak ve master'dan güncel verilerin slave'e aktarılması için kaynak tüketimine devam edilecektir.</p>
 <p>Ayrıca şunu da bilmekte fayda vardır ki, bir master'ın birden fazla replikasyonu da mevcut olabilir. Böylece, birden fazla slave sunucunun olmasıyla yüksek kullanılabilirlik, yedekleme ve kurtarma, veri ölçeklendirme ve coğrafi olarak dağıtılmış sistemler gibi senaryolarda yararlı çalışmalar gerçekleştirilebilir.</p>
 <p>Slave sunucular sadece readonly'dir.</p>
+
+<h2>Redis Sentinel Yapısı Nedir ?</h2>
+
+<p>Redis Sentinel, master/slave replikasyon sistemi üzerinde çalışan bir yönetim servisidir. Sentinel, Redis veritabanının sağlığını izler ve herhangi bir problem, kesinti vs. meydana geldiği taktirde otomatik olarak failover(yük devretme) işlemleri gerçekleştirerek farklı bir sunucu üzerinden Redis hizmetinin kaldığı yerden devam etmesini sağlar.</p>
+<p>Redis Sentinel'de <b>master</b>, <b>slave</b>, <b>sentinel</b>, <b>failover</b> olmak üzere dört kritik kavram vardır.</p>
+
+<h3>Master</h3>
+<p>Redis veritabanının ana sunucusudur. Tüm yazma ve okuma işlemleri bu sunucu üzerinde gerçekleşir.</p>
+<p>Yani o anda aktif olan Redis sunucusunun rolünü ifade eder. Bu ana bilgisayar, diğer yedek Redis bilgisayarlarından(slave) daha öncelikli konumdadur ve bundan dolayı veri yazma ve okuma işlemleri için kullanılır.</p>
+<p>Sentinel ise master olan Redis sunucusunun sağlıklı olup olmadığını süreli olarak izleyecek ve sorun olduğu taktirde başka bir yedek Redis sunucusunu otomatik master olarak işaretleyecektir.</p>
+
+<h3>Slave</h3>
+<p>Redis veritabanının yedek sunucularını ifade eder. Master sunucunun verilerinin replikasyonunu alır ve sadece okuma işlemleri için kullanılır.</p>
+<p>Slave için, master sunucunun yedeklenmiş bir kopyasıdır diyebiliriz.</p>
+<p>Redis sentinel yapılanmasının uygulandığı bir mimaride, herhangi bir t zamanda 'master' sunucu yalnızca bir tane olurken slave ise birden fazla olabilir.</p>
+
+<h3>Sentinel</h3>
+<p>Redis veritabanının sağlığını izleyen ve otomatik failover işlemlerini gerçekleştiren bir yönetim servisidir.</p>
+<p>Sentinel, Redis veritabanının yüksek kullanılabilirliğini sağlamak ve herhangi bir kesintiye mahal vermemeksizin sürdürülebilir kılmak için otomatik olarak çalışmakta ve Redis master sunucusunun sağlıklı olup olmadığını sürekli olarak gözlemlemektedir. Master sunucuda bir problem ya da kesinti meydana geldiği taktirde sentinel sunucusu yedek(slave) Redis sunuculardan birinin yükseltilmesi ve ana bilgisayar yerine master yapılması işinden sorumludur.</p>
+<p>Ayrıca Redis Sentinel, sisteme eklenen tüm slave sunucular hakkında bilgi toplamakta ve aralarından bir lider seçmektedir.</p>
+
+<h3>Failover</h3>
+<p>Master sunucunun arızalanması durumunda Sentinel tarafından herhangi bir slave'in master olarak atanması işleminin terminolojik karşıtlığıdır.</p>
+<p>Başka bir deyişle herhangi bir slave'in mevcut master yerine geçip master olmasına 'failover' denmektedir.</p>
+<p>Sentinel sunucusu, failover işlemi gerçekleştirdiği taktirde yeni master'ın IP değerini diğer slave'lere ileterek tüm sunucularının senkronize olmasını sağlamaktadır.</p>
+<p>Failover işlemi ardından mevcut master'da slave konumuna geçer.</p>
+
