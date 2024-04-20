@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InMemory.Caching", "InMemor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Distrubuted.Caching", "Distrubuted.Caching\Distrubuted.Caching.csproj", "{5D5540EE-84E5-47C9-9F7F-5F4B5A58AB18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis.Pub.Sub.Publisher.Example", "Redis.Pub.Sub.Publisher.Example\Redis.Pub.Sub.Publisher.Example.csproj", "{D6F0E9CA-6D16-4DB5-A61A-C29E9960934F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redis.Pub.Sub.Publisher.Example", "Redis.Pub.Sub.Publisher.Example\Redis.Pub.Sub.Publisher.Example.csproj", "{D6F0E9CA-6D16-4DB5-A61A-C29E9960934F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis.Pub.Sub.Subsciber.Example", "Redis.Pub.Sub.Subsciber.Example\Redis.Pub.Sub.Subsciber.Example.csproj", "{7C90629E-4C30-4187-AC9C-9133FD34E07B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redis.Pub.Sub.Subsciber.Example", "Redis.Pub.Sub.Subsciber.Example\Redis.Pub.Sub.Subsciber.Example.csproj", "{7C90629E-4C30-4187-AC9C-9133FD34E07B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis.Sentinel", "Redis.Sentinel\Redis.Sentinel.csproj", "{2EF04201-E212-4B89-97BA-7671169370B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7C90629E-4C30-4187-AC9C-9133FD34E07B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C90629E-4C30-4187-AC9C-9133FD34E07B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C90629E-4C30-4187-AC9C-9133FD34E07B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF04201-E212-4B89-97BA-7671169370B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF04201-E212-4B89-97BA-7671169370B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF04201-E212-4B89-97BA-7671169370B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF04201-E212-4B89-97BA-7671169370B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

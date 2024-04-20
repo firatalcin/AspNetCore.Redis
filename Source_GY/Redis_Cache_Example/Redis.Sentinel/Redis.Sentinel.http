@@ -1,0 +1,6 @@
+@Redis.Sentinel_HostAddress = http://localhost:5252
+
+GET {{Redis.Sentinel_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
